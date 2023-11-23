@@ -1,0 +1,352 @@
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+
+<head>
+  <title>Operations</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  
+  
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_user_guide.css') }}">
+
+
+
+</head>
+
+<html>
+
+<body style="color: white;">
+
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('dormant') }}">Dormant</a>
+    <a href="{{ url_for('intelligence_hub') }}">Data Hub</a>
+    <a href="{{ url_for('map') }}">Live Map</a>        
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <div style="display: flex;">
+      <a href="" style="color: white;">  <i class="fa fa-linkedin" style="font-size: 1em;"></i></a>
+      <a href="" style="color: white;"><i class="fa fa-globe" style="font-size:1em"></i></a>
+      <a href="" style="color: white;">
+        <i class="fa fa-envelope" style="font-size: 1em;"></i>
+      </a>
+    </div>
+
+</div>
+
+<div id="main">
+<span style="width: 5%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;" onclick="openNav()">
+    <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="width: 2%;color: white;">
+  </span>
+  <a href="{{ url_for('home') }}">          
+    <img src="{{ url_for('static', filename='image/logos/' + logo_path) }}" alt="" style="width: 7%;">
+  </a> 
+<span style="color: white; position: absolute; right: 3.5%;font-size: 1.3em;">User Guide</span>
+</div>
+
+<!-- <div  id="index_body" style="color: rgb(0, 47, 113); background-color: white; border-radius: 25px; width: 60%;justify-content: center; display: flex; position: relative;  left: 20%;">
+    <div style="padding: 1%;">
+        <p id="index_titles" onclick="Scroller('WhyUse')" style=" cursor: pointer; font-weight: bold;">Why to Use</p>
+     
+        <div id="guide_index">
+            <p onclick="Scroller('Why_1')" style="cursor: pointer;">1. Real-Time Insights</p>
+            <p onclick="Scroller('Why_2')" style="cursor: pointer;">2. Track Lounge Activity</p>
+            <p onclick="Scroller('Why_3')" style="cursor: pointer;">3. Unleash Historical Trends</p>
+            <p onclick="Scroller('Why_4')" style="cursor: pointer;">4. Customize Your View</p>
+            <p onclick="Scroller('Why_5')" style="cursor: pointer;">5. Stay Proactively Informed</p>
+        </div>
+        
+    </div>
+    <div style="padding: 1%;">
+        <p id="index_titles" onclick="Scroller('HowUse_Home')" style="cursor: pointer; font-weight: bold; cursor: pointer;">How to Use (Home)</p>
+        
+        <div id="guide_index">
+            <p onclick="Scroller('HowUse_Home_1')" style="cursor: pointer;">1. Real-Time Updates at Your Command</p>
+            <p onclick="Scroller('HowUse_Home_2')" style="cursor: pointer;">2. Powerful Filters for Tailored Insights</p>
+            <p onclick="Scroller('HowUse_Home_3')" style="cursor: pointer;">3. Alert Sensitivity for Timely Notifications</p>
+            <p onclick="Scroller('HowUse_Home_4')" style="cursor: pointer;">4. Plot Interval for Clear Interpretation</p>
+            <p onclick="Scroller('HowUse_Home_5')" style="cursor: pointer;">5. Client Order and Alert Mode Ranking</p>
+            <p onclick="Scroller('HowUse_Home_6')" style="cursor: pointer;">6. Change Percentage for Real-Time Insights</p>
+            <p onclick="Scroller('HowUse_Home_7')" style="cursor: pointer;">7. Dynamic Graph Tools for Visual Impact</p>
+            <p onclick="Scroller('HowUse_Home_8')" style="cursor: pointer;">8. Effortless Updates and Timer Control</p>    
+        </div>
+
+    </div>
+    <div style="padding: 1%;">
+        <p id="index_titles" onclick="Scroller('HowUse_Dashboard')" style="cursor: pointer; font-weight: bold; cursor: pointer;">How to Use (Dashboard)</p>
+        <div id="guide_index">
+            <p onclick="Scroller('HowUse_Dash_1')" style="cursor: pointer;">1. Client Snapshot</p>
+            <p onclick="Scroller('HowUse_Dash_2')" style="cursor: pointer;">2. Lounge Locations Tile</p>
+            <p onclick="Scroller('HowUse_Dash_3')" style="cursor: pointer;">3. Passenger Plot Tile</p>
+            <p onclick="Scroller('HowUse_Dash_4')" style="cursor: pointer;">4. Airport Locations Tile</p>    
+        </div>
+    </div>
+    <div style="padding: 1%;">
+        <p id="index_titles" onclick="Scroller('How_Live')" style="cursor: pointer; font-weight: bold; cursor: pointer;">How to Use (Live Map)</p>
+
+        <div id="guide_index">
+            <p onclick="Scroller('How_Live_1')" style="cursor: pointer;" >1. Uncover Global Passenger Traffic</p>
+        </div>
+    </div>
+    <div style="padding: 1%;">
+        <p id="index_titles" onclick="Scroller('FAQ')" style="cursor: pointer; font-weight: bold; cursor: pointer;">FAQ</p>
+
+        <div id="guide_index">
+            <p onclick="Scroller('FAQ_1')" style="cursor: pointer;" >1. When a client is perceived dormant?</p>
+            <p onclick="Scroller('FAQ_2')" style="cursor: pointer;" >2. Why to have two carousels in case of more than five accessed clients?</p>
+            <p onclick="Scroller('FAQ_3')" style="cursor: pointer;" >3. What is Plot Interval?</p>
+            <p onclick="Scroller('FAQ_4')" style="cursor: pointer;" >4. What is Alert Sensitivity?</p>
+            <p onclick="Scroller('FAQ_5')" style="cursor: pointer;" >5. What is "Change" rate on graphs?</p>
+            <p onclick="Scroller('FAQ_6')" style="cursor: pointer;" >6. What is client order in case of more than one accessed client?</p>
+            <p onclick="Scroller('FAQ_7')" style="cursor: pointer;" >7. What is Weekly Comparison?</p>
+            <p onclick="Scroller('FAQ_8')" style="cursor: pointer;" >8. How to put a graph under close scrutiny?</p>
+            <p onclick="Scroller('FAQ_9')" style="cursor: pointer;" >9. How to Access a client Dashboard?</p>
+            <p onclick="Scroller('FAQ_10')" style="cursor: pointer;" >10. How to deal with airports, when in airport monitoring page?</p>
+
+        </div>
+    </div>
+    
+</div> -->
+    
+<div>
+    <div class="container-row-2" >   
+        <a href="{{ url_for('user_guide_page', filename='user_guide_whyuse') }}" >
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/whyuse.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+
+            <p><strong>Why to Use?</strong></p>
+            
+        </div>
+    </a>
+    <a href="{{ url_for('user_guide_page', filename='user_guide_faq') }}">
+        <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/faq.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+            <p><strong>FAQ</strong></p>
+        </div>
+    </a> 
+    </div>
+
+      <div class="container-row-1" >   
+        
+        <a href="{{ url_for('user_guide_page', filename='user_guide_graph_custome') }}">
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/graph_custom.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+                <p><strong>Graph Customization Tools</strong></p>
+        </div>
+        </a>
+        
+        <a href="{{ url_for('user_guide_page', filename='user_guide_graph_filter') }}">
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer; background-image: url('{{ url_for('static', filename='image/user_guide/graph_filters.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;">
+              <p><strong>Graph Filters</strong></p>
+            </div>
+          </a>
+          
+        
+        <a href="{{ url_for('user_guide_page', filename='user_guide_dashboard') }}">
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/dashboard.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+                <p><strong>Dashboard Tiles</strong></p>
+        </div>
+        </a>
+
+        </div>
+
+      <div class="container-row-1" >   
+        <a href="{{ url_for('user_guide_page', filename='user_guide_notified') }}">
+
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/data_absence.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+                <p><strong>Be notified in the Event of Data Absence</strong></p>
+        </div>
+        </a>        
+        <a href="{{ url_for('user_guide_page', filename='user_guide_livemap') }}">
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/traffic_monitor.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+                <p><strong>Monitor the traffic using Live Map</strong></p>
+        </div>
+        </a>
+
+        <a href="{{ url_for('user_guide_page', filename='user_guide_graph_scrutiny') }}">
+            <div class="tile" onclick="Scroller('FAQ')" style="cursor: pointer;background-image: url('{{ url_for('static', filename='image/user_guide/scrutiny.png') }}'); background-size: 100% 100%; background-repeat: no-repeat;  background-position: center;" >
+                <p><strong>Take Graph Details under Scrutiny</strong></p>
+        </div>
+        </a>
+      </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<button id="backToTop" onclick="scrollToTop()">↑</button>
+
+
+<div class="image-container" id="imageContainer_Home" style="display: none;"  >
+    <img  src="{{ url_for('static', filename='image/user_guide/Home.png') }}" alt="Guide Image" >
+    <span class="close-button" onclick="closeImage('imageContainer_Home')" style="cursor: pointer; z-index: 10;">Close</span>
+</div>
+
+<div class="image-container" id="imageContainer_Dashboard" style="display: none;">
+    <img  src="{{ url_for('static', filename='image/user_guide/Dashboard.png') }}" alt="Guide Image">
+    <span class="close-button" onclick="closeImage('imageContainer_Dashboard')" style="cursor: pointer; z-index: 10;">Close</span>
+</div>
+
+<div class="image-container" id="imageContainer_Livmap" style="display: none;"> 
+    <img  src="{{ url_for('static', filename='image/user_guide/LiveMap.png') }}" alt="Guide Image">
+    <span class="close-button" onclick="closeImage('imageContainer_Livmap')" style="cursor: pointer; z-index: 10;">Close</span>
+</div>
+
+
+
+
+{% include 'footer.html' %}
+
+<script>
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Home');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Home').style.display = 'block';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Dashboard');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Dashboard').style.display = 'block';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Livmap');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'block';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  }
+});
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('Livemap_last_part');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+</script>
+
+
+<script>
+function Scroller(id_) {
+  const targetElement = document.getElementById(id_);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function closeImage(id) {
+  document.getElementById(id).style.display = 'none';
+}
+</script>
+
+<script>
+const backToTopButton = document.getElementById('backToTop');
+window.onscroll = function () {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    backToTopButton.style.display = 'block';
+  } else {
+    backToTopButton.style.display = 'none';
+  }
+};
+function scrollToTop() {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home_utils.js') }}"></script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+
+<head>
+  <title>Operations</title>
+  <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  
+  
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_user_guide.css') }}">
+
+
+
+</head>
+
+<html>
+
+<body style="color: white;">
+
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('user_guide') }}">Tutorial</a>
+    <a href="{{ url_for('dormant') }}">Dormant</a>
+    <a href="{{ url_for('intelligence_hub') }}">Data Hub</a>
+    <a href="{{ url_for('map') }}">Live Map</a>        
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+</div>
+
+<div id="main">
+  <span style="width: 5%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;" onclick="openNav()">
+      <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="width: 2%;color: white;">
+    </span>
+  
+  
+    <a href="{{ url_for('user_guide') }}">
+    </a>
+  </div>
+
+   
+
+
+
+
+<div id="FAQ">
+    
+    <div id = "FAQ_1">
+        <p style="text-align: center; font-size: 2.2em; background-color: #f5f5f5; border-radius: 25px;color: rgb(0, 47, 113); ">Frequently Asked Questions</p>
+
+        <div class="button-container">
+          <a href="{{ url_for('user_guide_page', filename='user_guide_whyuse') }}" class="button-link" >
+            <button class="previous-button" ><span>Previous</span><span>Why to Use</span></button>
+          </a>
+          <a href="{{ url_for('user_guide_page', filename='user_guide_graph_custome') }}" class="button-link">
+            <button class="next-button"><span>Next</span><span>Graph Customization Tools</span></button>
+          </a>
+        </div>
+
+        <p style="font-size: x-large;" >When a client is perceived dormant?</p>
+        <p>
+            If a client fails to provide new data from any of its lounges, it is categorized as dormant.
+        </p>
+    </div>
+
+    <div id = "FAQ_2">
+        <p style="font-size: x-large;" >Why to have two carousels in case of more than five accessed clients</p>
+        <p>
+            The first carousel showcases graphs based on the chosen client order, updating each minute before returning to the starting slide to highlight the main current changes. To ensure no graphs are overlooked, the second carousel consistently displays a shuffled version of the first, offering an ever-changing and engaging experience that emphasizes the significance of data visualization.
+        </p>
+    </div>
+    
+    <div id = "FAQ_3">
+        <p style="font-size: x-large;">What is Plot Interval?</p>
+        <p>
+            To enhance the manipulation of graphs, the Plot Interval serves as a control mechanism that allows users to adjust the level of detail in the graph. In essence, when selecting a larger Plot Interval, such as transitioning from a daily interval to a 5-day interval, the graph depicts aggregated passenger traffic data points for every 5 days, leading to a smoother curve representation.        </p>
+    </div>
+
+    <div id = "FAQ_4">
+        <p style="font-size: x-large;">What is Alert Sensitivity?</p>
+        <p>
+            The Alert Sensitivity feature enables users to regulate the degree of responsiveness to receiving new data from a monitored lounge. For instance, selecting a 1-day Alert Sensitivity setting implies that if there is no new data received from a lounge within the last 24 hours, the lounge would be classified as dormant. This sensitivity setting allows users to customize the threshold for identifying inactive lounges based on their preferred time interval.
+        </p>
+    </div>
+
+    <div id = "FAQ_5">
+        <p style="font-size: x-large;">What is "Change" rate on graphs?</p>
+        <p>
+            It shows the growth percentage between the last two data points, highlighting the recent shifts. For example, with a Plot Interval of 5 days, it compares the most recent data to its counterpart from 5 days earlier, offering clear trends and opportunities. </p>
+    </div>
+
+    <div id = "FAQ_6">
+        <p style="font-size: x-large;">What is client order in case of more than one accessed client?</p>
+        <p>
+            The tool offers users three distinct options for arranging graphs based on their preferences. The first option is to sort the graphs alphabetically, allowing for easy identification based on their names or identifiers. The second option is to prioritize graphs according to Passenger Traffic, displaying the graph with the highest number of passengers first, followed by others in descending order. Finally, the default option, known as the Alert Order, arranges graphs in two stages: initially showing dormant status graphs to highlight lounges with no recent activity, and then sorting the remaining graphs based on the highest rate of change percentage. This comprehensive and customizable approach enables users to conveniently visualize and analyze graphs, tailored to their specific needs and objectives.
+        </p>
+    </div>
+
+    <div id = "FAQ_7">
+        <p style="font-size: x-large;">What is Weekly Comparison?</p>
+        <p>
+        It is the aggregation of whole passengers of accessed clients within the last 7 days compared to the week before that.
+        </p>
+    </div>
+
+    <div id = "FAQ_8">
+        <p style="font-size: x-large;">How to put a graph under close scrutiny?</p>
+        <p>
+            By employing filters, users can easily select a specific client or lounge. Once selected, the tool displays the corresponding graph, complemented by new facilitative features that enhance the overall user experience.
+        </p>
+    </div>
+
+    <div id = "FAQ_9">
+        <p style="font-size: x-large;">How to Access a client Dashboard?</p>
+        <p>
+        On Home page, simply click on the graph of selected client.
+        </p>
+    </div>
+    
+
+    
+    <div id = "FAQ_10">
+        <p style="font-size: x-large;">How to deal with airports, when in airport monitoring page?</p>
+        <p>
+            The airport list allows users to click on a specific airport to be redirected to its location on the map. Additionally, each airport's airplane icon is also clickable, providing users with a brief description of that particular airport. Moreover, the convenience of double-clicking enables users to swiftly return to the default zoom level on the map.         </p>
+    </div>
+    
+</div>
+
+<button id="backToTop" onclick="scrollToTop()">↑</button>
+
+
+
+
+
+
+
+{% include 'footer.html' %}
+
+<script>
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Home');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Home').style.display = 'block';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Dashboard');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Dashboard').style.display = 'block';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Livmap');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'block';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  }
+});
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('Livemap_last_part');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+</script>
+
+
+<script>
+function Scroller(id_) {
+  const targetElement = document.getElementById(id_);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function closeImage(id) {
+  document.getElementById(id).style.display = 'none';
+}
+</script>
+
+<script>
+const backToTopButton = document.getElementById('backToTop');
+window.onscroll = function () {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    backToTopButton.style.display = 'block';
+  } else {
+    backToTopButton.style.display = 'none';
+  }
+};
+function scrollToTop() {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home_utils.js') }}"></script>
+
+</body>
+</html>

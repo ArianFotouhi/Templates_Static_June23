@@ -1,0 +1,237 @@
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #002F6F;
+    height: 200%;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  #notif-container {
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  
+
+
+
+/* for dormant.html */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-wrapper {
+    flex: 0 0 calc(20% - 20px);
+    margin: 10px;
+}
+/* for dormant.html */
+
+
+
+
+
+.plot {
+    width: 250px;
+    height: 350px;
+    display: inline-block;
+    position: relative;
+}
+
+
+
+
+.navbar-nav .nav-item .btn {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+
+
+.main-svg{ 
+    border: 1px solid rgb(3, 173, 159);
+}
+
+
+.plot.single {
+    width: 80%;
+    height: 500px;
+    margin: 10px;
+}
+
+.arrow {
+    position: relative;
+    /* top: 0px; */
+    bottom: 290px;
+    left: 90px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.arrow .up-arrow {
+    color: green;
+}
+
+.arrow .down-arrow {
+    color: red;
+}
+
+.navbar {
+    margin-bottom: 0;
+  }
+  
+  .navbar .navbar-nav {
+    margin-left: auto;
+  }
+  
+  .navbar .navbar-nav .nav-item {
+    margin-right: 2%; /* Adjust the margin as needed */
+  }
+
+
+#charts-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: red;
+    animation: blink 1s infinite;
+}
+
+.smaller-button {
+    font-size: 12px; /* Adjust the font size as needed */
+    padding: 0.25rem 0.5rem; /* Adjust the padding as needed */
+  }
+  
+
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+
+
+.custom-progress {
+  width: 200px;
+  height: 10px;
+  background-color: #ccc;
+  border-radius: 5px;
+}
+
+.custom-progress-bar {
+  width: 0;
+  height: 100%;
+  background-color: #55aaff;
+  border-radius: 5px;
+  transition: width 0.3s ease-in-out;
+  position: relative;
+
+}
+
+.progress-percent {
+  position: relative;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-weight: bold;
+}
+
+.slide {
+  margin: 0;
+  margin-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* Add this CSS to your stylesheet */
+.slick-dots li button:before {
+  color: white;
+  opacity: 1;
+}
+
+/* .slick-slider {
+  margin:0 -15px;
+} */
+.slick-slide {
+  padding:4px;
+  background-color: rgba(0, 32, 77, 0.705);
+  margin-right:1px;
+  margin-left:1px;
+}
+
+
+.box1 {
+  width: 300px;
+  margin: 50px auto;
+  border: 4px solid #002F6F;
+  padding: 20px;
+  text-align: center;
+  font-weight: 900;
+  color: #002F6F;
+  font-family: arial;
+  position: relative;
+}
+
+
+
+.sb7:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid #002F6F;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #002F6F;
+  border-bottom: 10px solid transparent;
+  left: 20px;
+  bottom: -23px;
+}
+
+.sb7:after {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid #fff;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #fff;
+  border-bottom: 10px solid transparent;
+  left: 24px;
+  bottom: -13px;
+}
+
+
+@media  (max-width: 720px) {
+  #lounge_monitoring{
+    margin-top: 0%;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1024px)  {
+  #lounge_monitoring{
+    margin-top: -0.3%;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1080px)  {
+  #lounge_monitoring{
+    margin-top: -0.5%;
+  }
+}
+
+

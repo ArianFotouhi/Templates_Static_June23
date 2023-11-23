@@ -1,0 +1,9 @@
+.dormant_title{
+    color: transparent;
+    -webkit-text-stroke: 0.3px #00BB78;
+    -webkit-text-fill-color: white;
+}
+
+#dormant_desc{
+    color: white;
+}

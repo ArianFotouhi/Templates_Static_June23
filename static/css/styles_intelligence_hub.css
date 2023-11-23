@@ -1,0 +1,35 @@
+.container_chosenmany{
+
+    text-align: left;
+}
+
+
+.bg-light-green {
+    background-color: rgba(0, 187, 120	, 0.9); /* Transparent blue with 0.5 opacity */
+}
+
+.bg-light-red {
+    background-color: rgba(255, 111, 111, 0.9); /* Transparent red with 0.5 opacity */
+}
+
+body {
+    font-size: 0.58em;
+}
+
+.row.justify-content-center{
+    margin-top: 1%;
+}
+
+.card-body {
+    padding: 0; /* Remove default padding */
+  }
+  
+  .container_uncrowded {
+    padding-left: 10px; /* Adjust left padding to your preference */
+  }
+  
+  .bullet-point {
+    padding-left: 20px; /* Increase the value to increase the left indentation */
+    margin-bottom: 5px; /* Adjust margin bottom to add space between bullet points */
+  }
+  

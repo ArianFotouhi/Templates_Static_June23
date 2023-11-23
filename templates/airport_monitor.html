@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_notification.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_loading.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_airport_monitor.css') }}">
+
+
+
+</head>
+
+
+<body > 
+  
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+
+    <a href="{{ url_for('home')}}">Home</a>
+    <a href="{{ url_for('dormant')}}">Dormant</a>
+    <a href="{{ url_for('intelligence_hub')}}">Data Hub</a>    
+    <a href="{{ url_for('map') }}">Live Map</a>    
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+    <div style="display: flex;z-index: 100;">
+      <a href="" style="color: white;">  <i class="fa fa-linkedin" style="font-size: 1em;"></i></a>
+      <a href="" style="color: white;"><i class="fa fa-globe" style="font-size:1em"></i></a>
+      <a href="" style="color: white;">
+        <i class="fa fa-envelope" style="font-size: 1em;"></i>
+      </a>
+    </div>
+    
+</div>
+
+<div id="main">
+        
+  <span style="width: 2%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;z-index: 10;position: absolute; top: 10%;" onclick="openNav()">
+    <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="z-index: 1;width: 100%;color: white;">
+  </span>
+  <!-- <a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='image/logo-WHITE.png') }}" alt="" style="z-index: 1;width: 7%; " ></a>  -->
+
+  <div style="text-align: right; position: absolute; right: 10px;top: 10px;width: 85%;">
+  <span style="z-index: -1;">
+    <strong id="client" name="client" class="tiletext" value="{{ client }}" style="font-size: 1.5em; color: white; font-weight: bold;margin-right:-2%;">{{client}} Airports</strong>
+  </span>
+  <img src="{{ url_for('static', filename='image/logos/' + logo_path) }}" alt="" style="width: 7%;">
+
+</div>
+</div>
+
+
+
+          <div id="chartdiv" style="position: absolute; top: -2%; z-index: 0;"></div>
+
+          <div class="list-container" style="color: white; position: absolute; left: 90%; top: 50px; z-index: 100;">
+           
+            {% if airports %}
+            Airports
+            <div class="tile">
+                        <div class="row" style="text-align: center;color: white;">
+                                  {% set num_bullet_points = airports | length %}
+                  
+                                  {% if num_bullet_points < 3 %}
+                                      {% for i in airports %}
+                                          <div class="col"  style="cursor: pointer;" onclick="clickedItem('{{ i }}')">
+                                            {{ i }}
+                                          </div>
+                                      {% endfor %}
+                                  
+                        </div>
+                  
+                              {% else %}
+
+                                {% for i in airports[:2] %}
+                                <div class="col" style="cursor: pointer;" onclick="clickedItem('{{ i }}')">
+                                  {{ i }}
+                                </div>
+                                {% endfor %}
+
+                                <button type="button" data-toggle="collapse" data-target="#collapse1_{{ client | replace(' ', '') }}" aria-expanded="false" aria-controls="collapse{{ client | replace(' ', '') }}" style="background: transparent; color: white; font-size: xx-small; text-align: center; margin: 5%; padding: 10px 20px; border: none; cursor: pointer; outline: none;">More...</button>
+                                <div class="collapse" id="collapse1_{{ client | replace(' ', '') }}">
+                                
+                                {% for i in airports[2:] %}
+                                <div class="col" style="cursor: pointer;" onclick="clickedItem('{{ i }}')">
+                                  {{ i }}
+                                </div>
+                                {% endfor %}           
+                                
+                                </div>
+
+                              {% endif %}     
+                              
+          </div>
+          {% endif %}
+          
+          </div>
+
+          
+          <div id="airport-info" style="display: none; position: fixed;  transform: translate(-50%, -50%); font-weight: bold; color: rgba(16, 52, 103); background-color: white;" class="box1 sb7"></div>
+
+
+
+    
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    
+
+  
+
+
+    <script>
+      var clickedItem_ = null;
+      var chart;
+      var airports;
+ 
+      am5.ready(function () {
+
+        var monitorWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        var monitorHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;              
+        var screenSize = Math.sqrt(monitorWidth * monitorWidth + monitorHeight * monitorHeight);
+        
+        airports = {{ airport_locs | safe }};
+        var root = am5.Root.new("chartdiv");
+        var clicked = null;
+
+        // Set themes
+        // https://www.amcharts.com/docs/v5/concepts/themes/
+        root.setThemes([am5themes_Animated.new(root)]);
+    
+        // Create the map chart
+        // https://www.amcharts.com/docs/v5/charts/map-chart/
+        chart = root.container.children.push(
+          am5map.MapChart.new(root, {
+            panX: "rotateX",
+            panY: "translateY",
+            projection: am5map.geoMercator(),
+          })
+        );
+    
+        var cont = chart.children.push(
+          am5.Container.new(root, {
+            layout: root.horizontalLayout,
+            x: 20,
+            y: 40,
+          })
+        );
+    
+        // Add labels and controls
+        cont.children.push(
+          am5.Label.new(root, {
+            centerY: am5.p50,
+            text: "Map",
+          })
+        );
+    
+        var switchButton = cont.children.push(
+          am5.Button.new(root, {
+            themeTags: ["switch"],
+            centerY: am5.p50,
+            icon: am5.Circle.new(root, {
+              themeTags: ["icon"],
+            }),
+          })
+        );
+    
+        switchButton.on("active", function () {
+          if (!switchButton.get("active")) {
+            chart.set("projection", am5map.geoMercator());
+            chart.set("panY", "translateY");
+            chart.set("rotationY", 0);
+            backgroundSeries.mapPolygons.template.set("fillOpacity", 0);
+          } else {
+            chart.set("projection", am5map.geoOrthographic());
+            chart.set("panY", "rotateY");
+    
+            backgroundSeries.mapPolygons.template.set("fillOpacity", 0.1);
+          }
+        });
+    
+        cont.children.push(
+          am5.Label.new(root, {
+            centerY: am5.p50,
+            text: "Globe",
+          })
+        );
+    
+        // Create series for background fill
+        // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
+        var backgroundSeries = chart.series.push(
+          am5map.MapPolygonSeries.new(root, { })
+        );
+        backgroundSeries.mapPolygons.template.setAll({
+          fill: root.interfaceColors.get("alternativeBackground"),
+          fillOpacity: 0,
+          strokeOpacity: 0,
+        });
+    
+        // Add background polygon
+        // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
+        backgroundSeries.data.push({
+          geometry: am5map.getGeoRectangle(90, 180, -90, -180),
+        });
+    
+        // Create main polygon series for countries
+        // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/
+        var polygonSeries = chart.series.push(
+          am5map.MapPolygonSeries.new(root, {
+            geoJSON: am5geodata_worldLow,
+          })
+        );
+    
+        // Create line series for trajectory lines
+        // https://www.amcharts.com/docs/v5/charts/map-chart/map-line-series/
+        var lineSeries = chart.series.push(am5map.MapLineSeries.new(root, {}));
+        lineSeries.mapLines.template.setAll({
+          stroke: root.interfaceColors.get("alternativeBackground"),
+          strokeOpacity: 0.3,
+        });
+    
+        // Create point series for markers
+        // https://www.amcharts.com/docs/v5/charts/map-chart/map-point-series/
+        var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+        var colorset = am5.ColorSet.new(root, {});
+    
+        pointSeries.bullets.push(function () {
+          var container = am5.Container.new(root, {
+            tooltipText: "{title}",
+            fill: am5.color(0xFFFFFF),
+            stroke: root.interfaceColors.get("background"),
+            strokeWidth: 2
+          });
+    
+          var plane = am5.Graphics.new(root, {
+            svgPath:
+              "m2,106h28l24,30h72l-44,-133h35l80,132h98c21,0 21,34 0,34l-98,0 -80,134h-35l43,-133h-71l-24,30h-28l15,-47",
+            scale: 0.05,
+            centerY: am5.p50,
+            centerX: am5.p50,
+            cursorOverStyle: "pointer",
+            fill: am5.color(0xFFFFFF),
+          });
+    
+          plane.events.on("click", function (event) {
+
+              clicked = event.target.dataItem.dataContext.airport_code
+              clicked_x = event.point.x; // X coordinate of clicked location
+              clicked_y = event.point.y; // Y coordinate of clicked location
+              console.log(clicked_x, clicked_y);   
+              update();
+            });
+    
+          var circle = container.children.push(
+            am5.Circle.new(root, {
+              radius: 4,
+              tooltipY: 0,
+              fill: am5.color("#FFFFFF"),
+              strokeOpacity: 0,
+            })
+          );
+    
+          circle.animate(
+            {
+              key: "scale",
+              from: 1,
+              to: 3,
+              duration: 600,
+              easing: am5.ease.out(am5.ease.cubic),
+              loops: Infinity,
+            },
+            0
+          );
+          circle.animate(
+            {
+              key: "opacity",
+              from: 1,
+              to: 0.1,
+              duration: 600,
+              easing: am5.ease.out(am5.ease.cubic),
+              loops: Infinity,
+            },
+            0
+          );
+    
+          container.children.push(plane);
+    
+          var bullet = am5.Bullet.new(root, { sprite: container });
+    
+          bullet.events.on("clicked", function (event) {
+
+          });
+    
+          return bullet;
+        });
+    
+        for (var i = 0; i < airports.length; i++) {
+          var airport = airports[i];
+          addAirport(airport[0], airport[1], airport[2], airport[3]);
+        }
+    
+        function addAirport(longitude, latitude, airport, country) {
+          var title = airport + ", " + country;
+          pointSeries.data.push({
+            geometry: { type: "Point", coordinates: [longitude, latitude] },
+            title: title,
+            airport_code: airport
+          });
+        }
+
+    
+        var chartdiv = document.getElementById("chartdiv");
+        chartdiv.style.width = "100%";
+        var monitorHeight =
+          window.innerHeight ||
+          document.documentElement.clientHeight ||
+          document.body.clientHeight;
+    
+        chartdiv.style.height = monitorHeight * 1.45 + "px";
+        chartdiv.style.overflow = "hidden";
+    
+        // Make stuff animate on load
+        chart.set("zoomControl", am5map.ZoomControl.new(root, {}));
+
+        chart.appear(1000, 100);
+
+
+        // polygonSeries.mapPolygons.template.events.on("click", function(ev) {
+        // polygonSeries.zoomToDataItem(ev.target.dataItem);
+        // });
+        
+
+          
+        function update() {
+
+
+          $.ajax({
+                  url: '/update_airports',
+                  type: 'POST',
+                  data: {
+                    selected_airport: clicked,
+                  },
+                  success: function(response) {
+                    var airportInfo = response.airport_info;
+
+                    if (airportInfo !== null) {
+                        var divElement = $('#airport-info');
+                        divElement.append($('<br>'));
+                        divElement.text(airportInfo.summary).css({'font-size': screenSize / 150 + 'px'});
+
+                        var closeBtn = $('<button>').attr('id', 'close-button').text('x').css({'margin-top': '-3%', 'color':'#103467'});
+                        var horizontalLine = $('<hr>');
+
+                        var urlElement = $('<a>').attr('href', airportInfo.url).text(' More...').css('color', '#103467');
+
+                        divElement.append(urlElement);
+                        divElement.append(closeBtn);
+
+                        $('body').append(divElement);
+                        divElement.show();
+
+                        // Add click event listener to the document
+                                                                         
+                          divElement.css({
+                            'top': clicked_y - 210 * (screenSize/2000) + 'px',
+                            'left': clicked_x + 130 + 'px'
+                          });
+                        
+                        $(window).on('resize wheel click', function () {
+                          divElement.hide();
+                        });
+
+                        closeBtn.click(function () {
+                          divElement.hide();
+                        });
+                      } else {
+                        if (divElement) {
+                          divElement.hide();
+                        }
+                      }
+
+
+                  },
+
+                  
+                });
+
+
+            }
+
+
+
+
+
+                  }); 
+
+      function clickedItem(name) {
+          console.log(name);
+          console.log(airports)
+          for (var i = 0; i < airports.length; i++) {
+            if (airports[i][2] == name) {
+              chart.zoomToGeoPoint({ longitude: airports[i][0], latitude: airports[i][1] }, 15, true);
+            }
+          }
+            }
+      document.addEventListener('dblclick', function(event) {
+ 
+              chart.goHome();
+            });
+    </script>
+    
+        
+    <script src="{{ url_for('static', filename='js/home_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+  
+
+</body>
+</html>

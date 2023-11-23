@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Operations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+
+
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_notification.css') }}">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_loading.css') }}">
+
+
+    
+
+</head>
+
+
+<body > 
+  
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+
+    <a href="{{ url_for('home')}}">Home</a>
+    <a href="{{ url_for('dormant')}}">Dormant</a>
+    <a href="{{ url_for('intelligence_hub')}}">Data Hub</a>    
+    <a href="{{ url_for('map') }}">Live Map</a>    
+
+
+    <li class="nav-item">
+      <div class="dropdown">
+          <button class="btn btn-primary  dropdown-toggle" type="button" id="filterDropdown" data-toggle="collapse" data-target="#filterForm" aria-expanded="false" aria-controls="filterForm">
+            Filters
+          </button>
+          <div class="collapse" id="filterForm">
+              
+            <form id="client-form" action="/home" method="get">
+              <div class="form-row align-items-center">
+                <div class="col-auto">
+                  <div class="row">
+                    <div class="col">
+                      <ul class="list-group">
+
+
+
+
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="lounge_name" name="lounge_name">
+                            <option value="">All Lounges</option>
+                            {% for lounge_name in cl_lounges_ %}
+                            <option value="{{ lounge_name }}">Lounge {{ lounge_name }}</option>
+                            {% endfor %}
+                          </select>
+                        </li>
+
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="airport_name" name="airport_name">
+                            <option value="">All Airports</option>
+                            {% for airport_name in airports %}
+                            <option value="{{ airport_name }}">Airport {{ airport_name }}</option>
+                            {% endfor %}
+                          </select>
+                        </li>
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="city_name" name="city_name">
+                            <option value="">All Cities</option>
+                            {% for city_name in cities %}
+                            <option value="{{ city_name }}">{{ city_name }}</option>
+                            {% endfor %}
+                          </select>
+                        </li>
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="country_name" name="country_name">
+                            <option value="">All Countries</option>
+                            {% for country_name in countries %}
+                            <option value="{{ country_name }}">{{ country_name }}</option>
+                            {% endfor %}
+                          </select>
+                        </li>
+
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="time_alert" name="time_alert">
+                            <option value="20">Data Alert Default (20 Days)</option>
+                            <option value="1">1 Day</option>
+                            {% for time_alert in setting['time_alert'] %}
+                            <option value="{{ time_alert }}">{{ time_alert }} Days</option>
+                            {% endfor %}
+                            <option value="7">1 Week</option>
+                            <option value="14">2 Weeks</option>
+                            <option value="21">3 Weeks</option>
+                            <option value="30">30 Days</option>
+                            <option value="90">90 Days</option>
+                            <option value="365">1 Year</option>
+                          </select>
+                        </li>
+
+
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="plt_interval" name="plt_interval">
+                            <option value="5">Plot Interval Default (5 Days)</option>
+                            <option value="1">1 Day</option>
+                            {% for plt_interval in setting['plot_interval'] %}
+                            <option value="{{ plt_interval }}">{{ plt_interval }} Days</option>
+                            {% endfor %}
+                            <option value="7">1 Week</option>
+                            <option value="14">2 Weeks</option>
+                            <option value="21">3 Weeks</option>
+                            <option value="30">30 Days</option>
+                            <option value="90">90 Days</option>
+                            <option value="365">1 Year</option>
+                          </select>
+                        </li>
+
+
+
+                        <li class="list-group-item">
+                          <select class="custom-select custom-select-sm" id="client_order" name="client_order">
+                            <option value="alert">Lounge Order Default (Alert)</option>
+                            
+                            <option value="alphabet">Alphabet</option>
+                            <option value="pax_rate">Passenger Traffic</option>
+                            
+                          </select>
+                        </li>
+
+
+                    <div class="form-group">
+                      <label for="startDate" style="color: antiquewhite;">Start Date</label>
+                      <input id="startDate" class="form-control flatpickr-input" type="text" placeholder="Start Date" value="">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="endDate" style="color: antiquewhite;">End Date</label>
+                      <input id="endDate" class="form-control flatpickr-input" type="text" placeholder="End Date" value="">
+                    </div>
+
+
+                    <div class="dropdown">
+                      <button class="btn btn-primary  dropdown-toggle" type="button" id="graphDropdown" data-toggle="collapse" data-target="#graphDropdownForm" aria-expanded="false" aria-controls="graphDropdownForm">
+                        Graph Tools
+                      </button>
+                      <div class="collapse" id="graphDropdownForm">
+                          
+                        <form id="client-form" action="/home" method="get">
+                          <div class="form-row align-items-center">
+                            <div class="col-auto">
+                              <div class="row">
+                                <div class="col">
+                                  <ul class="list-group">
+
+                        <label for="PlotGradient" class="form-label" style="color: white;">Graph Color Contrast</label>
+                        <input type="range" class="form-range" min="0" max="5" step="0.1" value="0.7" id="PlotGradient">
+                                                          
+                        <label for="PlotSizer" class="form-label" style="color: white;">Plot Size</label>
+                        <input type="range" class="form-range custom-slider" min="0.5" step="0.1" max="7.0" value="2.0" id="PlotSizer">
+
+                        <label for="plt_thickness" class="form-label" style="color: white;">Curve Thickness</label>
+                        <input type="range" class="form-range" min="0" max="8" step="0.1" value="4.0" id="plt_thickness">
+                      </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+
+
+
+
+
+                          <div class="form-group">
+                            <button type="button"  id="resetButton">Reset</button>
+                          </div>
+
+
+                      </ul>
+
+
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+      </div>
+             
+  </li>
+
+  <li class="nav-item">
+    <button id="update-btn" type="button" >Update</button>
+  </li>
+
+  <div class="custom-control custom-switch" style="margin-left: 1%;">
+    <input type="checkbox" class="custom-control-input" id="customSwitches" checked>
+    <label class="custom-control-label" for="customSwitches" style="color: White;">Auto Update</label>
+  </div>
+
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+
+<div style="display: flex;">
+  <a href="" style="color: white !important;">
+    <i class="fa fa-linkedin" style="font-size: 1em;color: white !important;"></i>
+  </a>
+  <a href="" style="color: white !important;">
+    <i class="fa fa-globe" style="font-size: 1em;"></i>
+  </a>
+  <a href="" style="color: white !important;">
+    <i class="fa fa-envelope" style="font-size: 1em;"></i>
+  </a>
+</div>
+
+
+
+</div>
+
+<div id="main">
+  <span style="width: 5%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;" onclick="openNav()">
+    <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="width: 2%;color: white;">
+  </span>
+  <a href="{{ url_for('home') }}">          
+    <img src="{{ url_for('static', filename='image/logos/' + logo_path) }}" alt="" style="width: 7%;">
+  </a> 
+<div style="text-align: right; position: absolute; right: 10px;top: 10px;width: 85%;">
+<span id="last-update" style=" font-size: 0.55em; color: white; font-weight: bold;"></span>
+</div>
+</div>
+    
+
+
+<div class="container-main" style="background-repeat: no-repeat;background-position: center top; background-size: 20% auto; background-image: url('{{ url_for('static', filename='image/logos/' + logo_file_name + '.png') }}')">
+    
+
+      <div id="loading">
+        <div class="loader"></div>
+      </div>
+      
+
+      
+
+      <div class="container-row-1" >
+        
+        
+        <div class="tile">
+          <div class="chart-container">
+            <canvas id="pieChart"></canvas>
+          </div>
+          <a href="{{ url_for('dormant') }}" style="text-decoration: none;">
+          {% if stats[0] %}
+          <p class="tiletext" >All lounges are not active 🤔</p>
+
+          {% else %}
+          <p class="tiletext">All lounges are active 😃</p>
+          {% endif %}
+        </a>
+        </div>
+        
+        <div class="tile">
+          <p><strong>Client</strong></p>
+          <strong id="client" name="client" class="tiletext" value="{{ client }}" style= "font-size: 2em;">{{client}}</strong>
+        </div>
+
+        <div class="tile">
+          <a href="/dashboard/{{client}}/airports" style="text-decoration: none;">
+            <p><strong>Airports</strong></p>
+            {% if airports %}
+              {% if airports|length > 2 %}
+                
+                
+                {% for airport_key in airports %}
+                {% if loop.index <= 2 %}
+                <h6 class="tiletext" style="font-size: 1em;">{{ airport_key }}, Lounge Num: {{airports[airport_key]}}</h6>
+                {% endif %}
+                {% endfor %}
+
+                <a href="/dashboard/{{client}}/airports" style="color: white;">...</a>
+              {% else %}
+                {% for airport_key in airports %}
+                  <h6 class="tiletext" style="font-size: 1em;">{{ airport_key }}, Lounge Num: {{airports[airport_key]}}</h6>
+                {% endfor %}
+              {% endif %}
+            {% else %}
+              <h6 class="tiletext">No Airport</h6>
+            {% endif %}
+          </a>
+        </div>
+         
+      </div>
+    
+      <div class="container-row-2">
+        <div class="tile">
+          <p style="font-size: 1.5em;"><strong>Current Uncrowded Lounges</strong></p>
+ 
+          <div class="tiletext" class="container">                       
+
+            {% if stats[1]['open_to_accept'][client]%}
+
+            {% set num_bullet_points = stats[1]['open_to_accept'][client]|length %}
+            
+            {% if 3 > num_bullet_points %}
+            
+              {% for component in stats[1]['open_to_accept'][client] %}
+            <div class="row">
+                <div>
+                    <ul>
+                    - {{component[0]}}, {{component[4]}}
+                    </ul>
+                </div>
+            </div>
+              {% endfor %}
+            
+            {% else %}
+            <div class="container">
+              {% for component in stats[1]['open_to_accept'][client][:2] %}
+            <div class="row">
+                <div>
+                    <ul>
+                    - {{component[0]}}, {{component[4]}}
+                    </ul>
+                </div>
+            </div>
+              {% endfor %}
+
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1_{{ client|replace(' ', '') }}" aria-expanded="false" aria-controls="collapse{{ client|replace(' ', '') }}" style="color: white;">More ...</button>
+            <div class="collapse" id="collapse1_{{ client|replace(' ', '') }}">
+                
+                    {% for component in stats[1]['open_to_accept'][client][2:] %}
+                    <div class="row">
+                        <div>
+                            <ul>
+                            - {{component[0]}}, {{component[4]}}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <h6>No Uncrowded Lounge</h6>
+            {% endif %}
+        </div>
+        </div>
+
+
+        <div class="tile">
+          <p style="font-size: 1.5em;"><strong>Current Chosen-By-Many Lounges</strong></p>
+
+ 
+          <div class="tiletext" class="container">                       
+
+            {% if stats[1]['very_crowded'][client]%}
+
+            {% set num_bullet_points = stats[1]['very_crowded'][client]|length %}
+            
+            {% if 3 > num_bullet_points %}
+            
+              {% for component in stats[1]['very_crowded'][client] %}
+            <div class="row">
+                <div>
+                    <ul>
+                    - {{component[0]}}, {{component[4]}}
+                    </ul>
+                </div>
+            </div>
+              {% endfor %}
+            
+            {% else %}
+            <div class="container">
+              {% for component in stats[1]['very_crowded'][client][:2] %}
+            <div class="row">
+                <div>
+                    <ul>
+                    - {{component[0]}}, {{component[4]}}
+                    </ul>
+                </div>
+            </div>
+              {% endfor %}
+
+            <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1_{{ client|replace(' ', '') }}" aria-expanded="false" aria-controls="collapse{{ client|replace(' ', '') }}" style="color: white;">More ...</button>
+            <div class="collapse" id="collapse1_{{ client|replace(' ', '') }}">
+                
+                    {% for component in stats[1]['very_crowded'][client][2:] %}
+                    <div class="row">
+                        <div>
+                            <ul>
+                            - {{component[0]}}, {{component[4]}}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% else %}
+            <h6>No Chosen-By-Many Lounge</h6>
+            {% endif %}
+        </div>
+        </div>
+      </div>
+
+      <div class="container-row-3">
+        <div class="tile">
+          <p class="tiletext">Lounge Locations</p>
+          <!-- <div id="locations" data-cities="{{ cities_dict }}"></div> -->
+          <div id="chartdiv" ></div>
+        </div>
+
+        <div class="tile">
+
+        <a href="/dashboard/{{client}}/lounges" style="text-decoration: none;">  
+          <p class="tiletext">Passengers Traffic</p>
+
+          <div id="plotContainer"></div>
+        </a>
+        </div>
+      </div>
+        
+
+
+    </div>
+
+
+   
+
+
+    
+   
+
+    <style>
+    #chartdiv {
+      width: 100%;
+      height: 500px;
+      overflow: hidden;
+    }
+    </style>
+    
+    <!-- Resources -->
+    <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/map.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/geodata/worldLow.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    
+
+  
+
+
+    <script>
+    am5.ready(function() {
+
+    var cities = {{ cities_dict | safe }};
+
+
+
+
+
+
+    var root = am5.Root.new("chartdiv");
+
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([am5themes_Animated.new(root)]);
+
+    // Create the map chart
+    // https://www.amcharts.com/docs/v5/charts/map-chart/
+    var chart = root.container.children.push(
+      am5map.MapChart.new(root, {
+        panX: "rotateX",
+        panY: "translateY",
+        projection: am5map.geoMercator()
+      })
+    );
+
+    var cont = chart.children.push(
+      am5.Container.new(root, {
+        layout: root.horizontalLayout,
+        x: 20,
+        y: 40
+      })
+    );
+
+    // Add labels and controls
+    cont.children.push(
+      am5.Label.new(root, {
+        centerY: am5.p50,
+        text: "Map"
+      })
+    );
+
+    var switchButton = cont.children.push(
+      am5.Button.new(root, {
+        themeTags: ["switch"],
+        centerY: am5.p50,
+        icon: am5.Circle.new(root, {
+          themeTags: ["icon"]
+        })
+      })
+    );
+
+    switchButton.on("active", function() {
+      if (!switchButton.get("active")) {
+        chart.set("projection", am5map.geoMercator());
+        chart.set("panY", "translateY");
+        chart.set("rotationY", 0);
+        backgroundSeries.mapPolygons.template.set("fillOpacity", 0);
+      } else {
+        chart.set("projection", am5map.geoOrthographic());
+        chart.set("panY", "rotateY");
+
+        backgroundSeries.mapPolygons.template.set("fillOpacity", 0.1);
+      }
+    });
+
+    cont.children.push(
+      am5.Label.new(root, {
+        centerY: am5.p50,
+        text: "Globe"
+      })
+    );
+
+    // Create series for background fill
+    // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
+    var backgroundSeries = chart.series.push(am5map.MapPolygonSeries.new(root, {}));
+    backgroundSeries.mapPolygons.template.setAll({
+      fill: root.interfaceColors.get("alternativeBackground"),
+      fillOpacity: 0,
+      strokeOpacity: 0
+    });
+
+    // Add background polygon
+    // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/#Background_polygon
+    backgroundSeries.data.push({
+      geometry: am5map.getGeoRectangle(90, 180, -90, -180)
+    });
+
+    // Create main polygon series for countries
+    // https://www.amcharts.com/docs/v5/charts/map-chart/map-polygon-series/
+    var polygonSeries = chart.series.push(
+      am5map.MapPolygonSeries.new(root, {
+        geoJSON: am5geodata_worldLow
+      })
+    );
+
+    // Create line series for trajectory lines
+    // https://www.amcharts.com/docs/v5/charts/map-chart/map-line-series/
+    var lineSeries = chart.series.push(am5map.MapLineSeries.new(root, {}));
+    lineSeries.mapLines.template.setAll({
+      stroke: root.interfaceColors.get("alternativeBackground"),
+      strokeOpacity: 0.3
+    });
+
+    // Create point series for markers
+    // https://www.amcharts.com/docs/v5/charts/map-chart/map-point-series/
+    var pointSeries = chart.series.push(am5map.MapPointSeries.new(root, {}));
+    var colorset = am5.ColorSet.new(root, {});
+
+    pointSeries.bullets.push(function() {
+      var container = am5.Container.new(root, {
+        tooltipText: "{title}",
+        cursorOverStyle: "pointer"
+      });
+
+
+
+
+
+
+      var circle = container.children.push(
+        am5.Circle.new(root, {
+          radius: 4,
+          tooltipY: 0,
+          fill: am5.color("#FFFFFF"),
+          strokeOpacity: 0
+        })
+      );
+
+
+      var circle2 = container.children.push(
+        am5.Circle.new(root, {
+          radius: 4,
+          tooltipY: 0,
+          fill: am5.color("#FFFFFF"),
+          strokeOpacity: 0,
+          tooltipText: "{title}"
+        })
+      );
+
+      circle.animate({
+        key: "scale",
+        from: 1,
+        to: 3,
+        duration: 600,
+        easing: am5.ease.out(am5.ease.cubic),
+        loops: Infinity
+      });
+      circle.animate({
+        key: "opacity",
+        from: 1,
+        to: 0.1,
+        duration: 600,
+        easing: am5.ease.out(am5.ease.cubic),
+        loops: Infinity
+      });
+
+      return am5.Bullet.new(root, {
+        sprite: container
+      });
+    });
+
+    // var cities = [
+    //     {
+    //       title: 'Paris',
+    //       latitude: 48.8588897,
+    //       longitude: 2.320041
+    //     }
+    //   ];
+
+
+
+    for (var i = 0; i < cities.length; i++) {
+      var city = cities[i];
+      addCity(city[0], city[1], city[2], city[3]);
+    }
+
+    function addCity(longitude, latitude, city, country) {
+      var title = city + ', ' + country;
+      pointSeries.data.push({
+        geometry: { type: "Point", coordinates: [longitude, latitude] },
+        title: title
+      });
+    }
+
+
+      // Make stuff animate on load
+      chart.appear(1000, 100);
+    }); // end am5.ready()
+    </script>
+    
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dormant_button_blink.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/int_hub_button_blink.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/date_picker_filter.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/filter_reset_button.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/home_utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+  
+    
+
+</body>
+
+</html>

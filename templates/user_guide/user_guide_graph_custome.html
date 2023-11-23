@@ -1,0 +1,243 @@
+<script src="https://code.highcharts.com/maps/highmaps.js"></script>
+<script src="https://code.highcharts.com/maps/modules/data.js"></script>
+<script src="https://code.highcharts.com/maps/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/offline-exporting.js"></script>
+<script src="https://code.highcharts.com/maps/modules/accessibility.js"></script>
+
+<head>
+  <title>Operations</title>
+  <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+  
+  
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_user_guide.css') }}">
+
+
+
+</head>
+
+<html>
+
+<body style="color: white;">
+
+
+
+<div id="mySidenav" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('user_guide') }}">Tutorial</a>
+    <a href="{{ url_for('dormant') }}">Dormant</a>
+    <a href="{{ url_for('intelligence_hub') }}">Data Hub</a>
+    <a href="{{ url_for('map') }}">Live Map</a>        
+    <a href="{{ url_for('logout') }}">Logout</a>
+
+</div>
+
+<div id="main">
+    <span style="width: 5%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;" onclick="openNav()">
+        <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="width: 2%;color: white;">
+      </span>
+    
+    
+      <a href="{{ url_for('user_guide') }}">
+      </a>
+    </div>
+
+   
+
+
+
+
+<div id="HowUse_Livmap">
+    <p style="text-align: center; font-size: 2.2em; background-color: #f5f5f5; border-radius: 25px;color: rgb(0, 47, 113); ">Graph Customization Tools</p>
+
+    <div class="button-container">
+        <a href="{{ url_for('user_guide_page', filename='user_guide_faq') }}" class="button-link">
+          <button class="previous-button" ><span>Previous</span><span>FAQ</span></button>
+        </a>
+        <a href="{{ url_for('user_guide_page', filename='user_guide_graph_filter') }}" class="button-link">
+          <button class="next-button"><span>Next</span><span>Graph Filters</span></button>
+        </a>
+    </div>
+
+    <div id = "How_Live" >
+        </p>
+        <p>
+            Regarding graph customization tools, users have the option to personalize their graphs using three main features: Graph Color Contrast, Plot Size, Curve Thickness and Plot Interval.   
+        </p>
+    </div>
+    
+    <div id = "How_Live_1">
+        <p>
+            Graph Color Contrast is a valuable tool that enables users to control the extent of color variation in the graph, depending on whether there is an increase (resulting in a more bluish hue) or a decrease (resulting in a more reddish hue) in the plot. By default, the plot size is automatically set to match the dimensions of the user's monitor. However, users also have the flexibility to manually adjust the size of plots according to their preferences.
+        </p>
+
+        <div style="display: flex; justify-content: center;">
+            <img src="{{ url_for('static', filename='image/user_guide/guide1_grcustom.png') }}" alt="" style="width: 20%; margin: 1%;">
+            <img src="{{ url_for('static', filename='image/user_guide/guide2_grcustom.png') }}" alt="" style="width: 20%; margin: 1%;">
+            <img src="{{ url_for('static', filename='image/user_guide/guide3_grcustom.png') }}" alt="" style="width: 20%; margin: 1%;">    
+        </div>
+
+        <p>
+            Moreover, increasing the curve thickness proves advantageous for enhancing visibility when dealing with smooth curves. On the other hand, reducing the thickness of a curve is beneficial for revealing finer details when dealing with curves that display a significant number of fluctuations.
+        </p>
+
+        <p>
+        Lastly, clarity meets convenience with plot interval tool. Smoothly it summarizes and aggregates results with the preferred interval (e.g., 5 days). This feature allows you to interpret graphs effortlessly, revealing patterns and insights with a glance.
+        </p>
+    </div>
+    
+</div>
+
+
+<button id="backToTop" onclick="scrollToTop()">↑</button>
+
+
+
+
+
+
+
+{% include 'footer.html' %}
+
+<script>
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Home');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Home').style.display = 'block';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Dashboard');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Dashboard').style.display = 'block';
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('HowUse_Livmap');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'block';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  } else {
+    // Hide the image if the scroll position is above the target div
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+  }
+});
+
+window.addEventListener('scroll', function() {
+  // Calculate the current scroll position
+  const scrollPosition = window.scrollY;
+
+  // Get the offset position of the target div with ID "HowUse_Home"
+  const targetElement = document.getElementById('Livemap_last_part');
+  const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+
+  // Check if the scroll position is at or below the position of the target div
+  if (scrollPosition >= targetPosition) {
+    // Show the image
+    document.getElementById('imageContainer_Livmap').style.display = 'none';
+    document.getElementById('imageContainer_Home').style.display = 'none';
+    document.getElementById('imageContainer_Dashboard').style.display = 'none';
+  }
+});
+
+</script>
+
+
+<script>
+function Scroller(id_) {
+  const targetElement = document.getElementById(id_);
+  if (targetElement) {
+    targetElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function closeImage(id) {
+  document.getElementById(id).style.display = 'none';
+}
+</script>
+
+<script>
+const backToTopButton = document.getElementById('backToTop');
+window.onscroll = function () {
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    backToTopButton.style.display = 'block';
+  } else {
+    backToTopButton.style.display = 'none';
+  }
+};
+function scrollToTop() {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+</script>
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+<script src="{{ url_for('static', filename='js/home_utils.js') }}"></script>
+
+</body>
+</html>

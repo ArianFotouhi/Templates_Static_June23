@@ -1,0 +1,84 @@
+.tiletext {
+    color: transparent;
+    -webkit-text-stroke: 0.3px #00BB78;
+    -webkit-text-fill-color: white;
+  }
+
+
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  
+  .container-main {
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .container-row-1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1%; /* Adjust the value to increase or decrease the distance */
+    width: 80%;
+    height: 20%;
+    text-align: center;
+    margin: 3% auto;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .container-row-2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1%; /* Adjust the value to increase or decrease the distance */
+    width: 50%;
+    height: 20%;
+    text-align: center;
+    margin: 1% auto;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.5em;
+  }
+  
+  .container-row-3 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1%; /* Adjust the value to increase or decrease the distance */
+    width: 80%;
+    height: 80%;
+    text-align: center;
+    margin: 1% auto;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  
+  
+  .tile {
+    flex-basis: 50%;
+    height: 100%;
+    background-color: rgba(151, 151, 151, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-sizing: border-box;
+    transition: background-color 0.3s ease; /* Adding a transition for a smooth effect */
+    
+  }
+  
+  .tile:hover {
+    background-color:rgba(115, 152, 255, 0.5); /* Change the background color to grey on hover */
+    box-shadow: 20px 20px 30px 40px rgba(0, 0, 0, 0.4);
+  }
+  .tile p {
+    color: white;
+    text-align: center;
+    margin: 0;
+    /* padding: 10px; */
+  }
+
+
+  .chart-container {
+    position: relative;
+    max-width: 70%; /* Adjust the max width as desired */
+    margin: 0 auto;
+  }

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Operations</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{url_for('static', filename='favicon.ico')}}">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_intelligence_hub.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles_sidebar.css') }}">
+
+
+    <style>
+        .card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .card-body {
+            flex-grow: 1;
+        }
+    </style>
+
+</head>
+
+<body >
+<div class="container-background" style="padding-bottom: 30%;background-image: url('{{ url_for('static', filename='') }}'); background-repeat: no-repeat;background-position: center top;">
+
+
+
+    <div id="mySidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" >&times;</a>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('dormant') }}">Dormant</a>    
+        <a href="{{ url_for('map') }}">Live Map</a>    
+        <a href="{{ url_for('logout') }}">Logout</a>
+        <div style="display: flex;">
+            <a href="" style="color: white;">  <i class="fa fa-linkedin" style="font-size: 1em;"></i></a>
+            <a href="" style="color: white;"><i class="fa fa-globe" style="font-size:1em"></i></a>
+            <a href="" style="color: white;">
+                <i class="fa fa-envelope" style="font-size: 1em;"></i>
+            </a>
+        </div>
+    </div>
+    
+    <div id="main">
+        
+        <span style="width: 5%; margin-right: 15px;  font-size:30px;cursor:pointer;color: white;" onclick="openNav()">
+          <img src="{{ url_for('static', filename='image/app/ham_menu_icon.png') }}" alt="" style="width: 2%;color: white;">
+        </span>
+        <a href="{{ url_for('home') }}">          
+            <img src="{{ url_for('static', filename='image/logos/' + logo_path) }}" alt="" style="width: 7%;">
+        </a>  
+    </div>
+
+
+<div class="container">
+
+<div class="container-row" style="color: white; font-size: 15px;">
+    {% for client in clients %}
+        {% if client in stats[2]['open_to_accept'].keys() %}
+            <div class="tile">
+                <p class="tiletext">{{ client }}, Sell More!😊</p>
+                {% set num_bullet_points = stats[2]['open_to_accept'][client] | length %}
+
+                {% if num_bullet_points < 3 %}
+                    {% for component in stats[2]['open_to_accept'][client] %}
+                        <p class="tiletext">
+                            - {{ component[0] }} {{ component[4] }}
+                        </p>
+                    {% endfor %}
+                
+                    </div>
+        
+                {% else %}
+                    {% for component in stats[2]['open_to_accept'][client][:2] %}
+                        <p class="tiletext">
+                            - {{ component[0] }} {{ component[4] }}
+                        </p>
+                    {% endfor %}
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1_{{ client | replace(' ', '') }}" aria-expanded="false" aria-controls="collapse{{ client | replace(' ', '') }}" style="color: white;">More ...</button>
+                        <div class="collapse" id="collapse1_{{ client | replace(' ', '') }}">
+                            {% for component in stats[2]['open_to_accept'][client][2:] %}
+                                <p class="tiletext">
+                                    - {{ component[0] }} {{ component[4] }}
+                                </p>     
+                            {% endfor %}           
+                        </div>
+                    
+                {% endif %}     
+        {% endif %}
+    {% endfor %}
+</div>
+
+
+
+<div class="container-row">
+    {% for client in clients %}
+        {% if client in stats[2]['very_crowded'].keys() %}
+            <div class="tile">
+                <p class="tiletext">{{ client }}, Sell More!😊</p>
+                {% set num_bullet_points = stats[2]['very_crowded'][client] | length %}
+
+                {% if num_bullet_points < 3 %}
+                    {% for component in stats[2]['very_crowded'][client] %}
+                        <p class="tiletext">
+                            - {{ component[0] }} {{ component[4] }}
+                        </p>
+                    {% endfor %}
+                
+                    </div>
+                {% else %}
+                    {% for component in stats[2]['very_crowded'][client][:2] %}
+                        <p class="tiletext">
+                            - {{ component[0] }} {{ component[4] }}
+                        </p>
+                    {% endfor %}
+                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse1_{{ client | replace(' ', '') }}" aria-expanded="false" aria-controls="collapse{{ client | replace(' ', '') }}" style="color: white;">More ...</button>
+                        <div class="collapse" id="collapse1_{{ client | replace(' ', '') }}">
+                            {% for component in stats[2]['very_crowded'][client][2:] %}
+                                <p class="tiletext">
+                                    - {{ component[0] }} {{ component[4] }}
+                                </p>     
+                            {% endfor %}           
+                        </div>
+                    
+                {% endif %}
+           
+        {% endif %}
+    {% endfor %}
+</div>
+{% include 'footer.html' %}
+</div>
+
+
+<script src="{{ url_for('static', filename='js/sidebar.js') }}"></script>
+
+</div>
+</body>
+</html>
